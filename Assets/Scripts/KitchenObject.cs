@@ -7,6 +7,17 @@ public class KitchenObject : MonoBehaviour
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
     private IKitchenObjectParent kitchenObjectParent;
 
+    public static KitchenObject CreateKitchenObjectAndAssignParent(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
+    {
+        Transform cutKitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
+        cutKitchenObjectTransform.localPosition = Vector3.zero;
+
+        KitchenObject kitchenObject = cutKitchenObjectTransform.GetComponent<KitchenObject>();
+        kitchenObject.SetKitchenObjectParent(kitchenObjectParent);
+
+        return kitchenObject;
+    }
+
     public void SetKitchenObjectParent(IKitchenObjectParent in_kitchenObjectParent) 
     {
         // Before we reparent the kitchen object, remove it from the old parent
@@ -34,4 +45,10 @@ public class KitchenObject : MonoBehaviour
     public IKitchenObjectParent GetKitchenObjectParent() { return kitchenObjectParent; }
 
     public KitchenObjectSO GetKitchenObjectSO() { return kitchenObjectSO; }
+
+    public void DestroySelf()
+    {
+        kitchenObjectParent.ClearKitchenObject();
+        Destroy(gameObject);
+    }
 }
