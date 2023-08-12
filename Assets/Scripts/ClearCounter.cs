@@ -8,7 +8,24 @@ public class ClearCounter : BaseCounter
 
     public override void Interact(Player player)
     {
-        // The clear counters are just placeholders, they will be used to pickup and drop items
+        // No Kitchen Object on the Counter
+        if (!HasKitchenObject())
+        {
+            // Player carrying Kitchen Object
+            if (player.HasKitchenObject())
+            {
+                player.GetKitchenObject().SetKitchenObjectParent(this);
+            }
+        }
+        // Kitchen Object On the Counter
+        else
+        {
+            // Player not carrying Kitchen Object
+            if (!player.HasKitchenObject())
+            {
+                GetKitchenObject().SetKitchenObjectParent(player);
+            }
+        }
     }
 
 }
