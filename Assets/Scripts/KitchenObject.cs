@@ -9,10 +9,10 @@ public class KitchenObject : MonoBehaviour
 
     public static KitchenObject CreateKitchenObjectAndAssignParent(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
     {
-        Transform cutKitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-        cutKitchenObjectTransform.localPosition = Vector3.zero;
+        Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
+        kitchenObjectTransform.localPosition = Vector3.zero;
 
-        KitchenObject kitchenObject = cutKitchenObjectTransform.GetComponent<KitchenObject>();
+        KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
         kitchenObject.SetKitchenObjectParent(kitchenObjectParent);
 
         return kitchenObject;
