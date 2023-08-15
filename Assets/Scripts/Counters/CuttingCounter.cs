@@ -4,17 +4,13 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private CuttingRecipieSO[] cuttingRecipieSOArray;
     private int cuttingProgress;
 
     public event EventHandler OnCut;
-    public event EventHandler<OnOnCuttingProgressChangedEventArgs> OnCuttingProgressChanged;
-    public class OnOnCuttingProgressChangedEventArgs : EventArgs
-    { 
-        public float cuttingProgressNormalized;
-    }
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     public override void Interact(Player player)
     {
@@ -27,9 +23,9 @@ public class CuttingCounter : BaseCounter
             {
                 player.GetKitchenObject().SetKitchenObjectParent(this);
                 cuttingProgress = 0;
-                OnCuttingProgressChanged?.Invoke(
+                OnProgressChanged?.Invoke(
                     this,
-                    new OnOnCuttingProgressChangedEventArgs { cuttingProgressNormalized = 0.00001f }
+                    new IHasProgress.OnProgressChangedEventArgs { progressNormalized = 0.00001f }
                 ); 
             }
         }
@@ -58,9 +54,9 @@ public class CuttingCounter : BaseCounter
 
             OnCut?.Invoke(this, EventArgs.Empty);
 
-            OnCuttingProgressChanged?.Invoke(
+            OnProgressChanged?.Invoke(
                 this, 
-                new OnOnCuttingProgressChangedEventArgs { cuttingProgressNormalized = (float)cuttingProgress / cuttingProgressMax }
+                new IHasProgress.OnProgressChangedEventArgs { progressNormalized = (float)cuttingProgress / cuttingProgressMax }
             );
 
             if (cuttingProgress >= GetCuttingRecipie(GetKitchenObject().GetKitchenObjectSO())?.cuttingProgressMax) 
