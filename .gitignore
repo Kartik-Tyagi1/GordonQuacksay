@@ -74,3 +74,6 @@ crashlytics-build.properties
 
 # Ignore Prefabs Visual Files
 Assets/_Assets
+Assets/TextMesh Pro
+Assets/TextMesh Pro.meta
+

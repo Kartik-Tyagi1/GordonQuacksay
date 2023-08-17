@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipieTimerMax = 4f;
     private int watingRecipiesMax = 4;
 
+    public event EventHandler OnRecepieCreated;
+    public event EventHandler OnRecepieRemoved;
+
     private void Awake()
     {
         Instance = this;
@@ -29,9 +33,10 @@ public class DeliveryManager : MonoBehaviour
 
             if(waitingRecipieSOList.Count < watingRecipiesMax )
             {
-                RecipieSO waitingRecipieSO = recipieListSO.recipieSOList[Random.Range(0, recipieListSO.recipieSOList.Count)];
-                Debug.Log(waitingRecipieSO.recipieName);
+                RecipieSO waitingRecipieSO = recipieListSO.recipieSOList[UnityEngine.Random.Range(0, recipieListSO.recipieSOList.Count)];
+                //Debug.Log(waitingRecipieSO.recipieName);
                 waitingRecipieSOList.Add(waitingRecipieSO);
+                OnRecepieCreated?.Invoke(this, EventArgs.Empty); 
             }
         }
     }
@@ -74,6 +79,7 @@ public class DeliveryManager : MonoBehaviour
                 {
                     //Debug.Log("Player Delivered Correct Recipie");
                     waitingRecipieSOList.RemoveAt(i);
+                    OnRecepieRemoved?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
@@ -81,4 +87,6 @@ public class DeliveryManager : MonoBehaviour
 
         //Debug.Log("Player Did Not Deliver the Correct Recipie");
     }
+
+    public List<RecipieSO> GetWaitingRecipieSOList() { return waitingRecipieSOList; }
 }
