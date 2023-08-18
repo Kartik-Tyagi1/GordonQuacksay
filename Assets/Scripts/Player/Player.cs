@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     /*
      * Events
      */
+    public event EventHandler OnPickedUpKitchenObject;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChange;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -175,6 +176,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;
+        if(kitchenObject != null)
+        {
+            OnPickedUpKitchenObject?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public void ClearKitchenObject()

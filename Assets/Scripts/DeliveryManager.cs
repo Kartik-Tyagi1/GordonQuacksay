@@ -17,6 +17,8 @@ public class DeliveryManager : MonoBehaviour
 
     public event EventHandler OnRecepieCreated;
     public event EventHandler OnRecepieRemoved;
+    public event EventHandler OnRecepieSuccess;
+    public event EventHandler OnRecepieFailed;
 
     private void Awake()
     {
@@ -80,12 +82,15 @@ public class DeliveryManager : MonoBehaviour
                     //Debug.Log("Player Delivered Correct Recipie");
                     waitingRecipieSOList.RemoveAt(i);
                     OnRecepieRemoved?.Invoke(this, EventArgs.Empty);
+                    OnRecepieSuccess?.Invoke(this, EventArgs.Empty);
                     return;
                 }
             }
         }
 
         //Debug.Log("Player Did Not Deliver the Correct Recipie");
+        OnRecepieFailed?.Invoke(this, EventArgs.Empty);
+
     }
 
     public List<RecipieSO> GetWaitingRecipieSOList() { return waitingRecipieSOList; }

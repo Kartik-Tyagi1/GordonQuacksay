@@ -9,7 +9,13 @@ public class CuttingCounter : BaseCounter, IHasProgress
     [SerializeField] private CuttingRecipieSO[] cuttingRecipieSOArray;
     private int cuttingProgress;
 
+    // OnAnyCut used for sound effect
+    public static event EventHandler OnAnyCut;
+
+    // OnCut used for animation
     public event EventHandler OnCut;
+
+    // OnProgressChanged uses for UI progress bar
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     public override void Interact(Player player)
@@ -65,6 +71,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             cuttingProgress++;
 
             OnCut?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
 
             OnProgressChanged?.Invoke(
                 this, 
