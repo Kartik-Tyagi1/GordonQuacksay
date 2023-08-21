@@ -14,6 +14,7 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipieTimer;
     private float spawnRecipieTimerMax = 4f;
     private int watingRecipiesMax = 4;
+    private int successfulRecepiesDelivered = 0;
 
     public event EventHandler OnRecepieCreated;
     public event EventHandler OnRecepieRemoved;
@@ -83,6 +84,7 @@ public class DeliveryManager : MonoBehaviour
                     waitingRecipieSOList.RemoveAt(i);
                     OnRecepieRemoved?.Invoke(this, EventArgs.Empty);
                     OnRecepieSuccess?.Invoke(this, EventArgs.Empty);
+                    successfulRecepiesDelivered++;
                     return;
                 }
             }
@@ -94,4 +96,9 @@ public class DeliveryManager : MonoBehaviour
     }
 
     public List<RecipieSO> GetWaitingRecipieSOList() { return waitingRecipieSOList; }
+
+    public int GetSuccessfulReceipiesDelivered()
+    {
+        return successfulRecepiesDelivered;
+    }
 }
