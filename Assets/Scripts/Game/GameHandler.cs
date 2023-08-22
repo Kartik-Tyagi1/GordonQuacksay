@@ -59,7 +59,7 @@ public class GameHandler : MonoBehaviour
             case GameState.GameOver:
                 break;
         }
-        Debug.Log(gameState);
+        //Debug.Log(gameState);
     }
 
     private void SetGameState(GameState state)
