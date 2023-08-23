@@ -20,6 +20,9 @@ public class MainMenuUI : MonoBehaviour
         {
             Application.Quit();
         });
+
+        // Reset TimeScale when quit from pause menu
+        Time.timeScale = 1.0f;
     }
 
     

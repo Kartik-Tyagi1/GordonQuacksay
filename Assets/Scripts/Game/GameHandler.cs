@@ -22,12 +22,26 @@ public class GameHandler : MonoBehaviour
     private float gamePlayingTimerMax = 30f;
     private float gamePlayingTimer;
 
+    private bool isGamePaused = false;
+
     public event EventHandler OnGameStateChanged;
+    public event EventHandler OnGamePaused;
+    public event EventHandler OnGameUnpaused;
 
     private void Awake()
     {
         Instance = this;
         gameState = GameState.WaitingToStart;
+    }
+
+    private void Start()
+    {
+        GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
+    }
+
+    private void GameInput_OnPauseAction(object sender, EventArgs e)
+    {
+        TogglePauseGame();
     }
 
     private void Update()
@@ -92,5 +106,20 @@ public class GameHandler : MonoBehaviour
     {
         // Timer is decreasing so we need to get the opposite value 
         return 1 - (gamePlayingTimer / gamePlayingTimerMax);
-}
+    }
+
+    public void TogglePauseGame()
+    {
+        isGamePaused = !isGamePaused;
+        if (isGamePaused)
+        {
+            Time.timeScale = 0f;
+            OnGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            OnGameUnpaused?.Invoke(this, EventArgs.Empty);
+        }
+    }
 }

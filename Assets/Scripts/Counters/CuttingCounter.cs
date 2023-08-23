@@ -118,4 +118,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
     {
         return GetCuttingRecipie(inputkitchenObjectSO) != null;
     }
+
+    new public static void ResetStaticData()
+    {
+        OnAnyCut = null;
+    }
 }

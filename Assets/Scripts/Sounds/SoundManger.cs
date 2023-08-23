@@ -7,10 +7,13 @@ public class SoundManger : MonoBehaviour
     public static SoundManger Instance { get; private set; }
 
     [SerializeField] AudioClipRefsSO audioClipRefsSO;
+    private float volume = 1f;
+    private const string PLAYER_PREFS_SFX_VOLUME = "SFXVolume";
 
     private void Awake()
     {
         Instance = this;
+        volume = PlayerPrefs.GetFloat(PLAYER_PREFS_SFX_VOLUME, .5f);
     }
 
     private void Start()
@@ -67,14 +70,31 @@ public class SoundManger : MonoBehaviour
         PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], postion, volume);
     }
 
-    private void PlaySound(AudioClip audioClip, Vector3 postion, float volume = 1f)
+    private void PlaySound(AudioClip audioClip, Vector3 postion, float volumeMultiplier = 1f)
     {
-        AudioSource.PlayClipAtPoint(audioClip, postion, volume);
+        AudioSource.PlayClipAtPoint(audioClip, postion, volumeMultiplier * volume);
     }
 
     public void PlayFootstepsSound(Vector3 position, float volume = 1f)
     {
         PlaySound(audioClipRefsSO.footsteps, position, volume);
+    }
+
+    public void ChangeVolume()
+    {
+        volume += .1f;
+        if(volume > 1f)
+        {
+            volume = 0f;
+        }
+
+        PlayerPrefs.SetFloat(PLAYER_PREFS_SFX_VOLUME, volume);
+        PlayerPrefs.Save();
+    }
+
+    public float GetVolume()
+    {
+        return volume;
     }
 
 
