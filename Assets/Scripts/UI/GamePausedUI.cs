@@ -18,7 +18,11 @@ public class GamePausedUI : MonoBehaviour
 
         optionsMenuButton.onClick.AddListener(() =>
         {
-            OptionsUI.Instance.Show();
+            Hide();
+
+            // Close game paused UI when we show the options UI so the button navigation works properly
+            // Pass in show function of pause menu so that it can be called to display pause menu when options menu is closed
+            OptionsUI.Instance.Show(Show);
         });
 
         mainMenuButton.onClick.AddListener(() =>
@@ -47,6 +51,7 @@ public class GamePausedUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        resumeButton.Select();
     }
 
     private void Hide()
