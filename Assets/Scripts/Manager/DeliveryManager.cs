@@ -34,7 +34,7 @@ public class DeliveryManager : MonoBehaviour
         {
             spawnRecipieTimer = spawnRecipieTimerMax;
 
-            if(waitingRecipieSOList.Count < watingRecipiesMax )
+            if (GameHandler.Instance.IsGamePlaying() && waitingRecipieSOList.Count < watingRecipiesMax )
             {
                 RecipieSO waitingRecipieSO = recipieListSO.recipieSOList[UnityEngine.Random.Range(0, recipieListSO.recipieSOList.Count)];
                 //Debug.Log(waitingRecipieSO.recipieName);
